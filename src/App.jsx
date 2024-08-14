@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import AppLayout from './layouts/app-layout'
@@ -9,6 +7,8 @@ import Dashboard from './pages/Dashboard'
 import Auth from './pages/Auth'
 import Link from './pages/Link'
 import RedirectLink from './pages/RedirectLink'
+import UrlProvider from './context'
+import RequireAuth from './components/RequireAuth'
 
 
 const router = createBrowserRouter([
@@ -21,7 +21,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/dashboard',
-        element: <Dashboard />
+        element: (
+          <RequireAuth>
+            <Dashboard />
+          </RequireAuth>
+        )
       },
       {
         path: '/auth',
@@ -29,7 +33,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/link/:id',
-        element: <Link />
+        element: (
+          <RequireAuth>
+            <Link />
+          </RequireAuth>
+        )
       },
       {
         path: '/:id',
@@ -44,7 +52,9 @@ function App() {
   
 
   return (
-    <RouterProvider router={router} />
+    <UrlProvider>
+      <RouterProvider router={router} />
+    </UrlProvider>
   )
 }
 
